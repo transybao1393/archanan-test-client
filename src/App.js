@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import './App.scss';
 import {Input, Row, Col, Button, notification} from 'antd';
-// import Home from './components/Home/Home';
 import Auth from '@aws-amplify/auth';
-// import awsExports from './awsExports';
 import Amplify, {API} from "aws-amplify";
 
 // Amplify.configure(awsExports);
@@ -53,7 +51,6 @@ function App() {
       console.log('accessToken', accessToken);
       console.log('idToken', idToken);
       //- calling api
-
       return API.post('myGolangServer', '/internal', {
         body: {idToken}
       });
@@ -68,11 +65,12 @@ function App() {
     })
     .catch(async (err) => {
       console.log('error when calling api...', err);
+      //- show error response
       notification['error']({
         message: 'Error',
-        description: err.message
+        description: JSON.stringify(err.message)
       });
-      await API.post('myGolangServer', '/internal2', {
+      await API.post('myGolangServer', '/internal', {
         body: {
           errorCode: err.code,
           errorMessage: err.message
